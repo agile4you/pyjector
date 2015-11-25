@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyjector &mdash; pyjector 0.0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="pyjector 0.0.0 documentation" href="index.html"/>
+        <link rel="prev" title="Welcome to pyjector’s documentation!" href="index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> pyjector</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">pyjector</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pyjector</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>pyjector</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/pyjector.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="pyjector">
+<h1>pyjector<a class="headerlink" href="#pyjector" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pyjector.pyjector.Injector">
+<em class="property">class </em><code class="descclassname">pyjector.pyjector.</code><code class="descname">Injector</code><a class="headerlink" href="#pyjector.pyjector.Injector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main Injection class that can help implement DP pattern.</p>
+<p><cite>pyjector.Injector</cite> class is a helper class for implementing the well-known
+<cite>Dependency-Injection</cite> pattern. Provides a user-friendly decorator API for
+injecting callables (functions or classes) into any function/class/methods
+you want.</p>
+<dl class="docutils">
+<dt>Features:</dt>
+<dd><ul class="first last simple">
+<li>Register callables with aliases in injector (decorated, or method).</li>
+<li>Dict-like access in registered callables.</li>
+<li>Partial Wrap callables registered in injector instances..</li>
+<li>Doesn&#8217;t affect callables that don&#8217;t require specific depedency.</li>
+</ul>
+</dd>
+</dl>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">injector</span> <span class="o">=</span> <span class="n">Injector</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@injector.provider</span><span class="p">(</span><span class="s">&#39;days&#39;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">days_function</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="mi">365</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@injector.inject</span><span class="p">(</span><span class="s">&#39;days&#39;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">days_handler</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">days</span><span class="p">(),</span> <span class="n">year</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">days_handler</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">(365, 3)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Using the decorator syntax or not, you must be ware of the</p>
+</div>
+<p>relative path imports in your code. In the docs tutorial we describe a
+proper way of creating depedencies in a modular way, that your api can
+be tested independently from other parts of code.</p>
+<dl class="attribute">
+<dt id="pyjector.pyjector.Injector.api">
+<code class="descname">api</code><a class="headerlink" href="#pyjector.pyjector.Injector.api" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns Injector instance registered callables aliases.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyjector.pyjector.Injector.inject">
+<code class="descname">inject</code><span class="sig-paren">(</span><em>keyword=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyjector.pyjector.Injector.inject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inject a depedency based on alias. The implementation is
+decorator-based.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">injector</span> <span class="o">=</span> <span class="n">Injector</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@injector.provider</span><span class="p">(</span><span class="s">&#39;days&#39;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">days_function</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="mi">365</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@injector.inject</span><span class="p">(</span><span class="s">&#39;days&#39;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">days_handler</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">days</span><span class="p">(),</span> <span class="n">year</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">days_handler</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">(365, 3)</span>
+</pre></div>
+</div>
+<p>The main idea is that our injector instance only injects the requested
+object only if decorated function accepts an argument with the same
+name as the alias of the callable. If this doesn&#8217;t happen, the
+<cite>Injector.inject</cite> methods returns the decorated function as is.</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd><ul class="first last simple">
+<li>keyword (str): The callable <cite>alias</cite> in injector instance.</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>callable (callable instance): The decorated function.</dd>
+<dt>Raises:</dt>
+<dd>NonUniqueKeyError: If <cite>keyword</cite> already registered in injector.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyjector.pyjector.Injector.provider">
+<code class="descname">provider</code><span class="sig-paren">(</span><em>keyword=None</em>, <em>**init_kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyjector.pyjector.Injector.provider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the same functionality as <cite>Injector.register_callable</cite>
+as decorator.</p>
+<p>Example Usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">injector</span> <span class="o">=</span> <span class="n">Injector</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@injector.provider</span><span class="p">(</span><span class="s">&#39;something&#39;</span><span class="p">,</span> <span class="n">async</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">some_callable</span><span class="p">(</span><span class="n">async</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">async</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">injector</span><span class="p">[</span><span class="s">&#39;something&#39;</span><span class="p">]()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd><ul class="first last simple">
+<li>keyword (str): The callable <cite>alias</cite> in injector instance.</li>
+<li>init_kwargs (dict): Params wrapped in callable</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>self (Injection instance): In order to be used on cascade.</dd>
+<dt>Raises:</dt>
+<dd>NonUniqueKeyError: If <cite>keyword</cite> already registered in injector.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyjector.pyjector.Injector.register_callable">
+<code class="descname">register_callable</code><span class="sig-paren">(</span><em>callable</em>, <em>keyword=None</em>, <em>**init_kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyjector.pyjector.Injector.register_callable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register new Injection object in injector instance.</p>
+<dl class="docutils">
+<dt>Example Usage:</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">injector</span> <span class="o">=</span> <span class="n">Injector</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">+</span><span class="n">z</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">injector</span><span class="o">.</span><span class="n">register_callable</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s">&#39;myfn&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">injector</span><span class="p">[</span><span class="s">&#39;myfn&#39;</span><span class="p">]()</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+</dd>
+<dt>Arguments:</dt>
+<dd><ul class="first last simple">
+<li>callable (object): Callable object (function or class)</li>
+<li>keyword (str): The callable <cite>alias</cite> in injector instance.</li>
+<li>init_kwargs (dict): Params wrapped in callable.</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>self (Injection instance): In order to be used on cascade.</dd>
+<dt>Raises:</dt>
+<dd>NonUniqueKeyError: If <cite>keyword</cite> already registered in injector.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to pyjector’s documentation!"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Papavassiliou Vassilis.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
