@@ -1,33 +1,41 @@
 # -*- coding: utf-8 -*-
-"""Tetsing suite for `pyjector.pyjector.Injector` class.
+"""Unit Tests fixtures for `pyjector` package.
 """
 
+__author__ = 'Papavassiliou Vassilis'
 
-class TestInjector(object):
+import pytest
+from pyjector import NonUniqueKeyError
+
+raises = getattr(pytest, 'raises')
+
+
+def test_inject_callable_registry(injector, callable_obj):
+    """Testing callable registry
+
+    Args:
+        injector (instance): Injector instance.
+        callable_obj (instance): Callable object instance.
+    """
+    injector.register_callable(
+        callable_obj=callable_obj,
+        keyword='strategy'
+    )
+
+    assert injector['strategy'] is callable_obj
+
+
+def test_inject_callable_run(injector):
     """
     """
+    assert injector['strategy']('foo', 'bar') == '(foo: bar)'
 
-    def test_register_callback(self):
-        """Testing if callback can be registered.
-        """
-        pass
 
-    def test_remove_callback(self):
-        """
-        """
-        pass
-
-    def test_dict_access(self):
-        """
-        """
-        pass
-
-    def test_provider(self):
-        """
-        """
-        pass
-
-    def test_inject(self):
-        """
-        """
-        pass
+def test_inject_single_keyword_registry(injector):
+    """
+    """
+    with raises(NonUniqueKeyError):
+        injector.register_callable(
+            callable_obj=lambda: 'FooBar',
+            keyword='strategy'
+        )

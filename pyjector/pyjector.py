@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """`pyjector.pyjector` module.
 
-Provides the main depedency-injection class implementation.
+Provides the main dependency-injection class implementation.
 """
 
 __author__ = 'Papavassiliou Vassilis'
@@ -44,7 +44,7 @@ class Injector(object):
         - Register callables with aliases in injector (decorated, or method).
         - Dict-like access in registered callables.
         - Partial Wrap callables registered in injector instances..
-        - Doesn't affect callables that don't require specific depedency.
+        - Doesn't affect callables that don't require specific dependency.
 
     Examples:
 
@@ -141,7 +141,7 @@ class Injector(object):
         return _wrapped
 
     def inject(self, keyword=None):
-        """Inject a depedency based on alias. The implementation is
+        """Inject a dependency based on alias. The implementation is
         decorator-based.
 
             The main idea is that our injector instance only injects the
