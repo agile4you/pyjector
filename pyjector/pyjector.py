@@ -127,7 +127,7 @@ class Injector(object):
 
         return _wrapped
 
-    def inject(self, keyword=None):
+    def inject(self, *keyword):
         """Inject a dependency based on alias. The implementation is
         decorator-based.
 
@@ -137,7 +137,7 @@ class Injector(object):
         the `Injector.inject` methods returns the decorated function as is.
 
         Args:
-            keyword (str): The callable `alias` in injector instance.
+            keyword (list): The callable `alias` in injector instance.
 
         Returns:
             The decorated callable instance
@@ -160,10 +160,14 @@ class Injector(object):
             >>> days_handler(year=3)
             (365, 3)
         """
+        kw_set = set(keyword)
+        api_set = set(self.api)
 
-        if keyword not in self.api:
+        if not kw_set.issubset(api_set):
             raise InjectionError(
-                "Keyword {} doesn't exists in {}".format(keyword, self)
+                "Keyword {} doesn't exists in {}".format(
+                    kw_set.difference(api_set), self
+                )
             )
 
         def _wrapped(callable_obj):
@@ -171,10 +175,14 @@ class Injector(object):
             @functools.wraps(callable_obj)
             def __wrapped(*args, **kwargs):
 
-                if keyword not in inspect.getargspec(callable_obj).args:
+                callable_set = set(inspect.getargspec(callable_obj).args)
+
+                if not kw_set.intersection(callable_set):
                     return callable_obj(*args, **kwargs)
 
-                kwargs[keyword] = self.__mapper.get(keyword)
+                for kw in kw_set.intersection(callable_set):
+                    kwargs[kw] = self[kw]
+
                 return callable_obj(*args, **kwargs)
 
             return __wrapped
@@ -207,9 +215,3 @@ class Injector(object):
 
     def __contains__(self, item):
         return item in self.__mapper.keys() + self.__mapper.values()
-
-
-if __name__ == '__main__':
-
-    import doctest
-    doctest.testmod()

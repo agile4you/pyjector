@@ -8,14 +8,14 @@ with codecs_open('README.rst', encoding='utf-8') as f:
 
 setup(
     name='pyjector',
-    version='0.0.1a1',
+    version='0.0.1a2',
     description=u"Python Depedency Injection utilities.",
     long_description=long_description,
     classifiers=[],
     keywords='',
     author=u"Papavassiliou Vassilis",
     author_email=u"vpapavasil@email.com",
-    url=u"repo/website link",
+    url=u"https://github.com/agile4you/pyjector",
     license='GLPv3',
     packages=find_packages(exclude=['ez_setup', 'examples', 'test']),
     include_package_data=True,

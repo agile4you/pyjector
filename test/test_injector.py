@@ -47,12 +47,24 @@ def test_injector_provider_method_error(injector):
         injector.provider('add')(lambda x, y: x - y)
 
 
-def test_injector_inject_method(injector, custom_func):
-    """Testing `pyjector.Injector.inject` method.
+def test_injector_inject_method_single(injector, custom_func):
+    """Testing `pyjector.Injector.inject` method on providing single object.
     """
     custom_fn = injector.inject('op')(custom_func)
 
     assert custom_fn('foo', 'bar') == '(foo: bar)'
+
+
+def test_injector_inject_method_multiple(injector):
+    """Testing `pyjector.Injector.inject` method on providing single object.
+    """
+
+    def test_fn(op, add, x, y):
+        return op(add(x, y), add(x + 1, y + 1))
+
+    custom_f = injector.inject('op', 'add')(test_fn)
+
+    assert custom_f(x=1, y=1) == '(2: 4)'
 
 
 def test_injector_inject_method_invalid_key_error(injector):
@@ -60,7 +72,7 @@ def test_injector_inject_method_invalid_key_error(injector):
         on invalid key to provide.
     """
     with pytest.raises(InjectionError):
-        return injector.inject('that')(lambda that: that*2)
+        return injector.inject('that')(lambda that: that * 2)
 
 
 def test_injector_inject_method_invalid_callable_parameter_pass(injector):
@@ -107,3 +119,8 @@ def test_injector_contains(injector, callable_obj):
     """
     assert callable_obj in injector
 
+
+def test_injector_str(injector):
+    """Testing `pyjector.Injector.__str__` method.
+    """
+    assert str(injector) == '<Injector> instance: (art, op)'

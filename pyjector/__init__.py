@@ -23,7 +23,6 @@ Provides the main depedency-injection class utilities
 __author__ = 'Papavassiliou Vassilis'
 __date__ = '2015-3-28'
 __version__ = '0.0.1'
-__all__ = ['InjectionError', 'NonUniqueKeyError', 'KeywordNotFoundError',
-           'Injector']
+__all__ = ['InjectionError', 'Injector']
 
 from pyjector import *
