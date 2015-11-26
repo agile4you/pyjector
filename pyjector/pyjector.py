@@ -7,27 +7,14 @@ Provides the main dependency-injection class implementation.
 __author__ = 'Papavassiliou Vassilis'
 __date__ = '2015-3-28'
 __version__ = '0.0.1'
-__all__ = ['InjectionError', 'NonUniqueKeyError', 'KeywordNotFoundError',
-           'Injector']
+__all__ = ['InjectionError', 'Injector']
 
 import functools
 import inspect
 
 
 class InjectionError(Exception):
-    """Base module exception class.
-    """
-    pass
-
-
-class NonUniqueKeyError(InjectionError):
-    """Raises when inject object key already in injector instance.
-    """
-    pass
-
-
-class KeywordNotFoundError(InjectionError):
-    """Raises when injection keyword alias doesn't exists in injector instance.
+    """Base Exception class.
     """
     pass
 
@@ -93,7 +80,7 @@ class Injector(object):
              Self Injection instance (in order to be used on cascade).
 
         Raises:
-            NonUniqueKeyError: If `keyword` already registered in injector.
+            InjectionError, if `keyword` already registered in injector.
 
         Examples:
             >>> injector = Injector()
@@ -103,12 +90,12 @@ class Injector(object):
             5
         """
         if keyword in self.api:
-            raise NonUniqueKeyError("`{}` keyword already exists"
-                                    .format(keyword))
+            raise InjectionError("`{}` keyword already exists"
+                                 .format(keyword))
         if init_kwargs:
             callable_obj = functools.partial(callable_obj, **init_kwargs)
 
-        self.__mapper[keyword] = callable_obj
+        self[keyword] = callable_obj
 
     def provider(self, keyword=None, **init_kwargs):
         """Implements the same functionality as `Injector.register_callable`
@@ -123,7 +110,7 @@ class Injector(object):
             init_kwargs (dict): Params wrapped in callable
 
         Raises:
-            NonUniqueKeyError: If `keyword` already registered in injector.
+            InjectionError: If `keyword` already registered in injector.
 
         Examples:
 
@@ -156,8 +143,7 @@ class Injector(object):
             The decorated callable instance
 
         Raises:
-            KeywordNotFoundError if keyword not found in instance `api`
-            property.
+            InjectionError if keyword not found in instance `api` property.
 
         Examples:
 
@@ -174,15 +160,16 @@ class Injector(object):
             >>> days_handler(year=3)
             (365, 3)
         """
+
+        if keyword not in self.api:
+            raise InjectionError(
+                "Keyword {} doesn't exists in {}".format(keyword, self)
+            )
+
         def _wrapped(callable_obj):
 
             @functools.wraps(callable_obj)
             def __wrapped(*args, **kwargs):
-
-                if keyword not in self.api:
-                    raise KeywordNotFoundError(
-                        "KeyWord {} doesn't exists in {}".format(self)
-                    )
 
                 if keyword not in inspect.getargspec(callable_obj).args:
                     return callable_obj(*args, **kwargs)

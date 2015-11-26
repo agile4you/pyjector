@@ -9,10 +9,7 @@ import pytest
 from pyjector import Injector
 
 
-fixture = getattr(pytest, 'fixture', None)
-
-
-@fixture(scope='session')
+@pytest.fixture(scope='session')
 def callable_obj():
     """A 'pytest.fixture' that mocks a callable object.
     """
@@ -23,7 +20,7 @@ def callable_obj():
     return _mock_callable
 
 
-@fixture(scope='session')
+@pytest.fixture(scope='session')
 def injector():
     """ A'pytest.fixture' that mocks `pyjector.Injector` class instance.
     """
@@ -33,7 +30,7 @@ def injector():
     return inst
 
 
-@fixture(scope='session')
+@pytest.fixture(scope='session')
 def custom_func():
     """A 'pytest.fixture' that mocks a custom function.
     """
