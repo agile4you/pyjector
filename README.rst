@@ -1,4 +1,4 @@
-.. image:: https://avatars2.githubusercontent.com/u/15942382?v=3&s=200
+.. image:: https://coveralls.io/repos/agile4you/pyjector/badge.svg?branch=master&service=github :target: https://coveralls.io/github/agile4you/pyjector?branch=master
 
 
 **pyjector**:  *Depedency Injection utilities for Python.*
