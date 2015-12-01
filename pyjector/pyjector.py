@@ -194,13 +194,13 @@ class Injector(object):
             ', '.join(self.api)
         )
 
-    def __repr__(self):
+    def __repr__(self): # pragma: no cover
         return "<{} instance at: 0x{:x}>".format(
             self.__class__.__name__,
             id(self)
         )
 
-    def __iter__(self):
+    def __iter__(self): # pragma: no cover
         for keyword in self.api:
             yield keyword
 
