@@ -8,7 +8,7 @@ with codecs_open('README.rst', encoding='utf-8') as f:
 
 setup(
     name='pyjector',
-    version='0.0.1a2',
+    version='0.0.1a3',
     description=u"Python Depedency Injection utilities.",
     long_description=long_description,
     classifiers=[],
