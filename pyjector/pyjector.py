@@ -55,7 +55,7 @@ class Injector(object):
 
     """
 
-    __slots__ = ('version', '__mapper')
+    __slots__ = ('__mapper')
 
     version = tuple(map(int, __version__.split('.')))
 
@@ -214,4 +214,4 @@ class Injector(object):
         del self.__mapper[key]
 
     def __contains__(self, item):
-        return item in self.__mapper.keys() + self.__mapper.values()
+        return item in list(self.__mapper.keys()) + list(self.__mapper.values())

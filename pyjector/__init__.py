@@ -20,9 +20,11 @@
 Provides the main depedency-injection class utilities
 """
 
+from __future__ import absolute_import
+
 __author__ = 'Papavassiliou Vassilis'
 __date__ = '2015-3-28'
 __version__ = '0.0.1'
 __all__ = ['InjectionError', 'Injector']
 
-from pyjector import *
+from pyjector.pyjector import *
