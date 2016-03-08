@@ -163,12 +163,6 @@ class Injector(object):
         kw_set = set(keyword)
         api_set = set(self.api)
 
-        if not kw_set.issubset(api_set):
-            raise InjectionError(
-                "Keyword {} doesn't exists in {}".format(
-                    kw_set.difference(api_set), self
-                )
-            )
 
         def _wrapped(callable_obj):
 
@@ -177,10 +171,9 @@ class Injector(object):
 
                 callable_set = set(inspect.getargspec(callable_obj).args)
 
-                if not kw_set.intersection(callable_set):
-                    return callable_obj(*args, **kwargs)
+                inject_set = kw_set.intersection(api_set) if kw_set else api_set
 
-                for kw in kw_set.intersection(callable_set):
+                for kw in inject_set.intersection(callable_set):
                     kwargs[kw] = self[kw]
 
                 return callable_obj(*args, **kwargs)

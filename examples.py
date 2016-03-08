@@ -25,7 +25,7 @@ print(fixtures)
 provider.register_callable(DB(**fixtures), 'db')
 
 
-@provider.inject('db')
+@provider.inject()
 def char_to_integer(db, ch):
     num = db.retrieve(ch)
     return num
