@@ -163,6 +163,13 @@ class Injector(object):
         kw_set = set(keyword)
         api_set = set(self.api)
 
+        try:
+            assert kw_set.issubset(api_set)
+
+        except AssertionError:
+            raise InjectionError('Invalid callable key name(s): {}'.format(
+                kw_set.difference(api_set)
+            ))
 
         def _wrapped(callable_obj):
 
